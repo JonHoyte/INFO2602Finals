@@ -1,10 +1,59 @@
 {% extends "layout.html" %}
-{% block title %}Backend App{% endblock %}
-{% block page %}Backend App{% endblock %}
+{% block title %} Todo{% endblock %}
+{% block page %} {{ current_user.username }}'s' Todo{% endblock %}
 
 {{ super() }}
 
 {% block content %}
-    <h1>This view is partially rendered on the server using jinja</h1>
-    <h2>It must be dynamically served</h2>
+<!--{% if current_user.is_authenticated %} -->
+  <div class="container">
+    <div class="row">
+      <form class="col s12 m8 offset-m2 card-panel" method="POST" action="/Quips">
+            
+            {{ form.csrf_token }}
+
+            <div class="input-field col s12 m8 offset-m2"> 
+              {{ form.thought(size=200, class="validate materialize-textarea") }}
+              {{ form.thought.label }}
+            </div>
+
+            <div class="input-field col s12 m8 offset-m2">
+              {{form.submit}}
+            </div> 
+        </form>
+    </div>
+    <div class="row">
+      <table>
+        <thead>
+          <tr>
+            <td>Todo</td><td>Status</td><td>Actions</td>
+          </tr>
+        </thead>
+        <tbody>
+          {% for todo in Quips %}
+            <tr>
+              <td>{{todo.text}}</td>
+              <td>
+                {% if todo.done %}
+                  DONE
+                {% else %}
+                  PENDING
+                {% endif %}
+                
+              </td>
+              <td>
+                <a class="waves-effect waves-light btn" href="/editTodo/{{todo.id}}">EDIT</a>
+                <a class="waves-effect waves-light btn" href="/todos?toggle={{todo.id}}">TOGGLE DONE</a>
+              </td>
+            </tr>
+          {% endfor %}
+          
+        <tbody>
+      </table>
+    </div>
+  </div>
+        
+  </div>
+
+{% endif%}
 {% endblock %}

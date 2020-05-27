@@ -1,5 +1,11 @@
 <!doctype html>
 <html>
+<style>
+#forma{
+    border-style:solid;
+    width:700px;
+}
+</style>
   <head>
   
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
@@ -10,7 +16,7 @@
     <!--Let browser know website is optimized for mobile-->
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>{% block title %}{% endblock %}</title>
-
+    
   </head>
   <body>
     <nav class="purple">
@@ -18,6 +24,19 @@
         <a href="#!" class="brand-logo center">{% block page %}{% endblock %}</a>
       </div>
     </nav>
+    {% with messages = get_flashed_messages() %}
+  {% if messages %}
+    <nav class="white black-text" style="padding: 10px">
+    <div class="nav-wrapper">
+        <ul class=”flashes”>
+        {% for message in messages %}
+          <li>{{ message }}</li>
+        {% endfor %}
+        </ul>
+    </div>
+  </nav>
+  {% endif %}
+{% endwith %}
 
     <div id="content">{% block content %}{% endblock %}</div>
 
