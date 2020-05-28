@@ -10,7 +10,7 @@ class User(UserMixin,db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(80), unique=True, nullable=False)
     password = db.Column(db.String(120), nullable=False)
-    todos = db.relationship('Todo', backref='User', lazy=True, cascade="all, delete-orphan") # sets up a relationship to todos which references User
+    Todo = db.relationship('Todo', backref='User', lazy=True, cascade="all, delete-orphan") # sets up a relationship to todos which references User
 
     def toDict(self):
         return {
@@ -19,19 +19,19 @@ class User(UserMixin,db.Model):
             "password":self.password
         }
         
-        #hashes the password parameter and stores it in the object
-        def set_password(self, password):
-            """Create hashed password."""
-            self.password = generate_password_hash(password, method='sha256')
+    #hashes the password parameter and stores it in the object
+    def set_password(self, password):
+        """Create hashed password."""
+        self.password = generate_password_hash(password, method='sha256')
         
-        #Returns true if the parameter is equal to the object's password property
-        def check_password(self, password):
-            """Check hashed password."""
-            return check_password_hash(self.password, password)
+    #Returns true if the parameter is equal to the object's password property
+    def check_password(self, password):
+        """Check hashed password."""
+        return check_password_hash(self.password, password)
         
-        #To String method
-        def __repr__(self):
-            return '<User {}>'.format(self.username)
+    #To String method
+    def __repr__(self):
+        return '<User {}>'.format(self.username)
 
 class Logs(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -61,15 +61,9 @@ class Todo(db.Model):
      'id': self.id,
      'text': self.text,
      'userid': self.userid,
-     'done': self.done
+     'likes': self.likes,
+     'dislikes': self.dislikes,
+     'react': self.react,
+     'owner': self.owner
    }
 
-def getNumTodos(self):
-      return len(self.todos)
-
-def getDoneTodos(self):
-    numDone = 0
-    for todo in self.todos:
-     if todo.done:
-        numDone += 1
-    return numDone

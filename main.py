@@ -113,8 +113,8 @@ def update_todo(id):
   data = request.get_json()
   if 'text' in data: # we can't assume what the user is updating wo we check for the field
     todo.text = data['text']
-  if 'done' in data:
-    todo.done = data['done']
+  if 'react' in data:
+    todo.react = data['react']
   db.session.add(todo)
   db.session.commit()
   return 'Updated', 201
@@ -148,20 +148,6 @@ def create_todo2():
   db.session.add(todo)
   db.session.commit()
   flash('Created')
-  return redirect(url_for('get_app'))
-
-@app.route('/updateTodo/<id>', methods=['POST'])
-@login_required
-def update_todo2(id):
-  done = request.form.get('done') # either 'on' or 'None'
-  todo = Todo.query.filter_by(userid=current_user.id, id=id).first()
-  if todo == None:
-    flash('Invalid id or unauthorized') 
-  todo.done = True if done == 'on' else False
-  flash('Done!') if todo.done else flash ('Not Done!')
-  db.session.add(todo)
-  db.session.commit()
-  
   return redirect(url_for('get_app'))
 
 

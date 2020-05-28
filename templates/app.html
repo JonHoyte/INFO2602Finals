@@ -6,7 +6,7 @@ ID: 816013096-->
 
 {% block link%}
     <ul id="nav-mobile" class="right">
-        <li><a href="/logout"><i class="material-icons">exit_to_app</i></a></li>
+        <li><a href="/index">LogOut</a></li>
     </ul>
 {% endblock %}
 
@@ -17,11 +17,11 @@ ID: 816013096-->
 
         <div class="card" >
           <div class="card-content">
-            <span class="card-title">Create Todo</span>
+            <span class="card-title">Hi {{current_user.username}}</span>
             <form name="addForm" method="POST" action="/createTodo">
               <div class="input-field">
-                <input type="text" name="text" placeholder="enter to-do" class="materialize-textarea"></textarea>
-                <label for="text">Enter todo Text</label>
+                <input type="text" name="text" placeholder="Create your best Quip" class="materialize-textarea"></textarea>
+                <label for="text"></label>
               </div>
               <input class="btn blue white-text" type="submit" value="POST" />
             </form>
@@ -34,10 +34,6 @@ ID: 816013096-->
                      <li class="card collection-item col s12 m4">
                         <form id="todoForm{{todo.id}}" method="POST" action="updateTodo/{{todo.id}}" class="card-content">
                           <span class="card-title">{{todo.text}}
-                            <label class="right">
-                              <input type="checkbox" name="done" onchange="todoForm{{todo.id}}.submit()" {%  if todo.done %} checked {% endif %} />
-                              <span>Done</span>
-                            </label>
                           </span>
                         </form>
                         <div class="card-action">
