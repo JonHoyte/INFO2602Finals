@@ -68,28 +68,7 @@ def login():
 def login_page():
   return render_template('index.html')
 
-
-#@app.route('/app', methods=['GET'])
-#@login_required
-#def Quips():
-  #QuipStack = Todo.query.filter_by(user_id=current_user.id).all()
-
-  #if QuipStack is None:
-     #QuipStack = []
-
-  #form = Status()
-
-  #if form.validate_on_submit():
-    #data = request.form
-    #newQuip = Status(Thought=data['name'], user_id=current_user.id)
-    #db.session.add(newQuip)
-    #db.session.commit()
-    #flash('Quip Added')
-    #return redirect(url_for('Quips'))
-
-  #return render_template('app.html', form=form, Todo=QuipStack)
-
-#imported stuff
+#Referenced code
 @app.route('/app', methods=['GET'])
 @login_required
 def get_app():
