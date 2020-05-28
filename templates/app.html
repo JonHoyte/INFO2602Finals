@@ -1,59 +1,52 @@
+<!--Contents of this exam where referenced from INFO2602 Labs 4-9 and Extra Lab.
+ID: 816013096-->
 {% extends "layout.html" %}
-{% block title %} Todo{% endblock %}
-{% block page %} {{ current_user.username }}'s' Todo{% endblock %}
+{% block title %}MoQuips{% endblock %}
+{% block page %} MoQuips {% endblock %}
+
+{% block link%}
+    <ul id="nav-mobile" class="right">
+        <li><a href="/logout"><i class="material-icons">exit_to_app</i></a></li>
+    </ul>
+{% endblock %}
 
 {{ super() }}
 
 {% block content %}
-<!--{% if current_user.is_authenticated %} -->
-  <div class="container">
-    <div class="row">
-      <form class="col s12 m8 offset-m2 card-panel" method="POST" action="/Quips">
-            
-            {{ form.csrf_token }}
+      <main class="container">
 
-            <div class="input-field col s12 m8 offset-m2"> 
-              {{ form.thought(size=200, class="validate materialize-textarea") }}
-              {{ form.thought.label }}
-            </div>
+        <div class="card" >
+          <div class="card-content">
+            <span class="card-title">Create Todo</span>
+            <form name="addForm" method="POST" action="/createTodo">
+              <div class="input-field">
+                <input type="text" name="text" placeholder="enter to-do" class="materialize-textarea"></textarea>
+                <label for="text">Enter todo Text</label>
+              </div>
+              <input class="btn blue white-text" type="submit" value="POST" />
+            </form>
+          </div>
+        </div>
 
-            <div class="input-field col s12 m8 offset-m2">
-              {{form.submit}}
-            </div> 
-        </form>
-    </div>
-    <div class="row">
-      <table>
-        <thead>
-          <tr>
-            <td>Todo</td><td>Status</td><td>Actions</td>
-          </tr>
-        </thead>
-        <tbody>
-          {% for todo in Quips %}
-            <tr>
-              <td>{{todo.text}}</td>
-              <td>
-                {% if todo.done %}
-                  DONE
-                {% else %}
-                  PENDING
-                {% endif %}
-                
-              </td>
-              <td>
-                <a class="waves-effect waves-light btn" href="/editTodo/{{todo.id}}">EDIT</a>
-                <a class="waves-effect waves-light btn" href="/todos?toggle={{todo.id}}">TOGGLE DONE</a>
-              </td>
-            </tr>
-          {% endfor %}
-          
-        <tbody>
-      </table>
-    </div>
-  </div>
-        
-  </div>
+        <ul class="collection with-header" id="result">
+            {% if current_user.is_authenticated %}
+                {% for todo in todos %}
+                     <li class="card collection-item col s12 m4">
+                        <form id="todoForm{{todo.id}}" method="POST" action="updateTodo/{{todo.id}}" class="card-content">
+                          <span class="card-title">{{todo.text}}
+                            <label class="right">
+                              <input type="checkbox" name="done" onchange="todoForm{{todo.id}}.submit()" {%  if todo.done %} checked {% endif %} />
+                              <span>Done</span>
+                            </label>
+                          </span>
+                        </form>
+                        <div class="card-action">
+                          <a href="/deleteTodo/{{todo.id}}">DELETE</a>
+                        </div>
+                    </li>
+                {% endfor %}
+            {% endif %}
+        </ul>
 
-{% endif%}
+    </main>
 {% endblock %}

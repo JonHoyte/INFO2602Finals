@@ -1,31 +1,31 @@
+<!--Contents of this exam where referenced from INFO2602 Labs 1-9 and Extra Lab.
+ID: 816013096-->
 {% extends "layout.html" %}
-{% block title %}login{% endblock %}
+{% block title %}Login{% endblock %}
 {% block page %}Login{% endblock %}
 
 {{ super() }}
 
 {% block content %}
-<br>
-<br>
-    <div class = 'row' id='forma'>
-      
-        <form class="col s12 m8 offset-m2" method="POST" action="/login">
-            {{ form.csrf_token }}
+    <main class="container">
+       <form class="card col s12" id="loginForm" method="POST" action="/index" style="padding:1em">
 
-            <div class="input-field col s12 m8 offset-m2"> 
-              {{ form.username(size=20, class="validate") }}
-              {{ form.username.label }}
+          <div class="row">
+            <div class="input-field col s12">
+              <input placeholder="" name="username" type="text" class="validate">
+              <label for="first_name">Username</label>
             </div>
+          </div>
+          <div class="row">
+            <div class="input-field col s12">
+              <input name="password" type="password" class="validate">
+              <label for="password">Password</label>
+            </div>
+          </div>
+          <div class="card-action">
+            <button type="submit" class="purple text-white btn"> Login</button>
+          </div>
 
-            <div class="input-field col s12 m8 offset-m2">
-              {{ form.password(size=20, class="validate") }}
-              {{ form.password.label }}
-            </div>
-
-            <div class="input-field col s12 m8 offset-m2">
-              {{form.submit}}
-            </div>
-        </form>
-      
-  </div>
+      </form>
+    </main>
 {% endblock %}

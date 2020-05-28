@@ -1,13 +1,16 @@
+#Contents of this exam where referenced from INFO2602 Labs 4-9 and Extra Lab.
+#ID: 816013096
 from flask_sqlalchemy import SQLAlchemy
+from flask_login import UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
 db = SQLAlchemy()
 import datetime
 
-class User(db.Model):
+class User(UserMixin,db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(80), unique=True, nullable=False)
     password = db.Column(db.String(120), nullable=False)
-    todos = db.relationship('Todo', backref='Logs', lazy=True) # sets up a relationship to todos which references User
+    todos = db.relationship('Todo', backref='User', lazy=True, cascade="all, delete-orphan") # sets up a relationship to todos which references User
 
     def toDict(self):
         return {
@@ -60,3 +63,13 @@ class Todo(db.Model):
      'userid': self.userid,
      'done': self.done
    }
+
+def getNumTodos(self):
+      return len(self.todos)
+
+def getDoneTodos(self):
+    numDone = 0
+    for todo in self.todos:
+     if todo.done:
+        numDone += 1
+    return numDone
